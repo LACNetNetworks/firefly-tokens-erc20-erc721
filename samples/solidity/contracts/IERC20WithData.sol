@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-import '@openzeppelin/contracts/utils/introspection/IERC165.sol';
+import './openzeppelin/contracts/utils/introspection/IERC165.sol';
 
 /**
  * ERC20 interface with mint, burn, and attached data support.

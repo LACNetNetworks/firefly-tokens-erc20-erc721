@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-import '@openzeppelin/contracts/utils/Context.sol';
+import './BaseRelayRecipient.sol';
 import './ERC20WithData.sol';
 import './ERC721WithData.sol';
 
@@ -31,7 +31,7 @@ import './ERC721WithData.sol';
  * Finally, remember to always consult best practices from other communities and examples (such as OpenZeppelin)
  * when crafting your token logic, rather than relying on the FireFly community alone. Happy minting!
  */
-contract TokenFactory is Context {
+contract TokenFactory is BaseRelayRecipient {
     event TokenPoolCreation(address indexed contract_address, string name, string symbol, bool is_fungible, bytes data);
 
     function create(
