@@ -10,7 +10,7 @@ abstract contract BaseRelayRecipient{
     /*
      * Forwarder singleton we accept calls from
      */
-    address internal trustedForwarder = 0xf2940f1Fe83Aac47748c62fc51b8Fc0B6Ebbc060;
+    address internal trustedForwarder = 0x43B6A574C5606A894F81d0CBeA087F0260Eb822d;   //testnet
 
     /**
      * return the sender of this call.
@@ -18,9 +18,16 @@ abstract contract BaseRelayRecipient{
      * should be used in the contract anywhere instead of msg.sender
      */
     function _msgSender() internal virtual returns (address sender) {
-        bytes memory bytesSender;
-        (,bytesSender) = trustedForwarder.call(abi.encodeWithSignature("getMsgSender()"));
+        bytes memory bytesRelayHub;
+        (,bytesRelayHub) = trustedForwarder.call(abi.encodeWithSignature("getRelayHub()"));
 
-        return abi.decode(bytesSender, (address));
+        if (msg.sender == abi.decode(bytesRelayHub, (address))){ //sender is RelayHub then return origin sender
+            bytes memory bytesSender;
+            (,bytesSender) = trustedForwarder.call(abi.encodeWithSignature("getMsgSender()"));
+        
+            return abi.decode(bytesSender, (address));
+        } else { //sender is not RelayHub, so it is another smart contract 
+            return msg.sender;
+        }
     }
 }
